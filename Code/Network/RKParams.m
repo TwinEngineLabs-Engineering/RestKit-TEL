@@ -74,11 +74,26 @@ NSString* const kRKStringBoundary = @"0xKhTmLbOuNdArY";
         NSArray *sortedKeys = [[dictionary allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 		for (NSString *key in sortedKeys) {
 			id value = [dictionary objectForKey:key];
-			[self setValue:value forParam:key];
+      [self setValue:value forKey:key];
 		}
 	}
 	
 	return self;
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key {
+  if ([value isKindOfClass:[NSDictionary class]]) {
+    for (NSString *subKey in [value allKeys]) {
+      [self setValue:[value objectForKey:subKey] forKey:[NSString stringWithFormat:@"%@[%@]", key, subKey]];
+    }
+  } else if([value isKindOfClass:[NSArray class]]) {
+    for (id obj in value) {
+      [self setValue:obj forKey:[NSString stringWithFormat:@"%@[]", key]];
+    }
+  } else {
+    [self setValue:value forParam:key];
+  }
+  
 }
 
 - (RKParamsAttachment *)setValue:(id <NSObject>)value forParam:(NSString *)param {
