@@ -95,6 +95,12 @@
     onDidLoadObjects = nil;
     [onDidLoadObjectsDictionary release];
     onDidLoadObjectsDictionary = nil;
+  
+  /**
+   TEL - Completion Block
+   */
+  self.objectCompletionBlock = nil;
+  self.objectFailureBlock = nil;
     
 	[super dealloc];
 }

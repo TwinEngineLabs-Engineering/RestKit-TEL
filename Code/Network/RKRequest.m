@@ -242,7 +242,12 @@ RKRequestMethod RKRequestMethodTypeFromName(NSString *methodName) {
     
     // Cleanup a background task if there is any
     [self cleanupBackgroundTask];
-
+  
+  /**
+   TEL - Completion Block
+   */
+  self.completionBlock = nil;
+  self.failureBlock = nil;
     [super dealloc];
 }
 
