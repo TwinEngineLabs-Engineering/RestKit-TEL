@@ -96,6 +96,7 @@
  */
 @interface RKClient : NSObject <RKConfigurationDelegate> {
 	RKURL *_baseURL;
+
     RKRequestAuthenticationType _authenticationType;
 	NSString *_username;
 	NSString *_password;
@@ -580,6 +581,10 @@
  @return The RKRequest object built and sent to the remote system
  */
 - (RKRequest *)get:(NSString *)resourcePath delegate:(NSObject<RKRequestDelegate> *)delegate;
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)get:(NSString *)resourcePath completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock;
 
 /**
  Fetch a resource via an HTTP GET with a dictionary of params.
@@ -595,6 +600,11 @@
  @return The RKRequest object built and sent to the remote system
  */
 - (RKRequest *)get:(NSString *)resourcePath queryParameters:(NSDictionary *)queryParameters delegate:(NSObject<RKRequestDelegate> *)delegate;
+
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)get:(NSString *)resourcePath queryParameters:(NSDictionary *)queryParameters completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock;
 
 /**
  Fetches a resource via an HTTP GET after executing a given a block using the configured request object.
@@ -618,6 +628,11 @@
  @see RKRequestSerializable
  */
 - (RKRequest *)post:(NSString *)resourcePath params:(NSObject<RKRequestSerializable> *)params delegate:(NSObject<RKRequestDelegate> *)delegate;
+
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)post:(NSString *)resourcePath params:(NSObject<RKRequestSerializable> *)params completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock;
 
 /**
  Creates a resource via an HTTP POST after executing a given a block using the configured request object.
@@ -644,6 +659,11 @@
 - (RKRequest *)put:(NSString *)resourcePath params:(NSObject<RKRequestSerializable> *)params delegate:(NSObject<RKRequestDelegate> *)delegate;
 
 /**
+ TEL - Completion Block
+ */
+- (RKRequest *)put:(NSString *)resourcePath params:(NSObject<RKRequestSerializable> *)params completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock;
+
+/**
  Updates a resource via an HTTP PUT after executing a given a block using the configured request object.
  
  @param resourcePath The resourcePath to target the request at
@@ -659,6 +679,11 @@
  @return The RKRequest object built and sent to the remote system
  */
 - (RKRequest *)delete:(NSString *)resourcePath delegate:(NSObject<RKRequestDelegate> *)delegate;
+
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)delete:(NSString *)resourcePath completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock;
 
 /**
  Destroys a resource via an HTTP DELETE after executing a given a block using the configured request object.

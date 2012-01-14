@@ -264,6 +264,9 @@ typedef void(^RKObjectLoaderDidLoadObjectsDictionaryBlock)(NSDictionary *diction
  */
 @property (nonatomic, assign) dispatch_queue_t mappingQueue;
 
+@property (nonatomic, copy) RKObjectCompletionBlock objectCompletionBlock;
+@property (nonatomic, copy) RKObjectFailureBlock objectFailureBlock;
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 /**

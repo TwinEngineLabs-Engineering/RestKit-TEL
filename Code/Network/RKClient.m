@@ -372,20 +372,70 @@ NSString *RKPathAppendQueryParams(NSString *resourcePath, NSDictionary *queryPar
 	return [self load:resourcePath method:RKRequestMethodGET params:nil delegate:delegate];
 }
 
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)get:(NSString *)resourcePath completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock {
+  RKRequest *r = [self load:resourcePath method:RKRequestMethodGET params:nil delegate:self];
+  [r setCompletionBlock:completionBlock];
+  [r setFailureBlock:failureBlock];
+  return r;
+}
+
 - (RKRequest *)get:(NSString *)resourcePath queryParameters:(NSDictionary *)queryParameters delegate:(id)delegate {
 	return [self load:resourcePath method:RKRequestMethodGET params:queryParameters delegate:delegate];
+}
+
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)get:(NSString *)resourcePath queryParameters:(NSDictionary *)queryParameters completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock {
+  RKRequest *r = [self load:resourcePath method:RKRequestMethodGET params:queryParameters delegate:self];
+  [r setCompletionBlock:completionBlock];
+  [r setFailureBlock:failureBlock];
+  return r;
 }
 
 - (RKRequest *)post:(NSString *)resourcePath params:(NSObject<RKRequestSerializable> *)params delegate:(id)delegate {
 	return [self load:resourcePath method:RKRequestMethodPOST params:params delegate:delegate];
 }
 
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)post:(NSString *)resourcePath params:(NSObject<RKRequestSerializable> *)params completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock {
+  RKRequest *r = [self load:resourcePath method:RKRequestMethodPOST params:params delegate:self];
+  [r setCompletionBlock:completionBlock];
+  [r setFailureBlock:failureBlock];
+  return r;
+}
+
 - (RKRequest *)put:(NSString *)resourcePath params:(NSObject<RKRequestSerializable> *)params delegate:(id)delegate {
 	return [self load:resourcePath method:RKRequestMethodPUT params:params delegate:delegate];
 }
 
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)put:(NSString *)resourcePath params:(NSObject<RKRequestSerializable> *)params completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock {
+  RKRequest *r = [self load:resourcePath method:RKRequestMethodPUT params:params delegate:self];
+  [r setCompletionBlock:completionBlock];
+  [r setFailureBlock:failureBlock];
+  return r;
+}
+
 - (RKRequest *)delete:(NSString *)resourcePath delegate:(id)delegate {
 	return [self load:resourcePath method:RKRequestMethodDELETE params:nil delegate:delegate];
+}
+
+/**
+ TEL - Completion Block
+ */
+- (RKRequest *)delete:(NSString *)resourcePath completionBlock:(RKCompletionBlock)completionBlock failureBlock:(RKFailureBlock)failureBlock {
+  RKRequest *r = [self delete:resourcePath delegate:self];
+  [r setCompletionBlock:completionBlock];
+  [r setFailureBlock:failureBlock];
+  return r;
 }
 
 - (void)serviceDidBecomeUnavailableNotification:(NSNotification *)notification {
@@ -472,6 +522,19 @@ NSString *RKPathAppendQueryParams(NSString *resourcePath, NSDictionary *queryPar
 
 - (NSURL *)URLForResourcePath:(NSString *)resourcePath queryParams:(NSDictionary *)queryParams {
     return [self.baseURL URLByAppendingResourcePath:resourcePath queryParameters:queryParams];
+}
+
+/**
+ TEL - Completion Block
+ */
+#pragma mark - RKRequestDelegate -- Completion Blocks
+
+- (void)request:(RKRequest *)request didLoadResponse:(RKResponse *)response {
+  request.completionBlock(request, response);
+}
+
+- (void)request:(RKRequest *)request didFailLoadWithError:(NSError *)error {
+  request.failureBlock(request, error);
 }
 
 @end

@@ -158,6 +158,14 @@ typedef void(^RKRequestDidFailLoadWithErrorBlock)(NSError *error);
 /**
  Models the request portion of an HTTP request/response cycle.
  */
+@class RKRequest, RKObjectLoader;
+
+typedef void(^RKCompletionBlock)(RKRequest *, RKResponse *);
+typedef void(^RKFailureBlock)(RKRequest *, NSError *);
+
+typedef void(^RKObjectCompletionBlock)(RKObjectLoader *, NSArray *objects);
+typedef void(^RKObjectFailureBlock)(RKObjectLoader *, NSError *);
+
 @interface RKRequest : NSObject {
     NSURL *_URL;
     NSMutableURLRequest *_URLRequest;
@@ -190,6 +198,11 @@ typedef void(^RKRequestDidFailLoadWithErrorBlock)(NSError *error);
     
     NSSet *_additionalRootCertificates;
     BOOL _disableCertificateValidation;
+/**
+ TEL - Completion Block
+ */
+  RKCompletionBlock _completionBlock;
+  RKFailureBlock _failureBlock;
     
     #if TARGET_OS_IPHONE
     RKRequestBackgroundPolicy _backgroundPolicy;
@@ -589,6 +602,14 @@ typedef void(^RKRequestDidFailLoadWithErrorBlock)(NSError *error);
  */
 @property (nonatomic, retain) NSSet *additionalRootCertificates;
 
+/**
+ TEL - Completion Block
+ */
+@property (nonatomic, copy) RKCompletionBlock completionBlock;
+@property (nonatomic, copy) RKFailureBlock failureBlock;
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 ///-----------------------------------------------------------------------------
 /// @name Sending and Managing the Request

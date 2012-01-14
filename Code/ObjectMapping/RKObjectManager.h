@@ -329,6 +329,7 @@ typedef enum {
  set on the mapping provider.
  */
 - (void)loadObjectsAtResourcePath:(NSString *)resourcePath delegate:(id<RKObjectLoaderDelegate>)delegate;
+- (void)loadObjectsAtResourcePath:(NSString *)resourcePath completionBlock:(RKObjectCompletionBlock)completionBlock failureBlock:(RKObjectFailureBlock)failureBlock;
 
 ////////////////////////////////////////////////////////
 /// @name Mappable Object Loaders
@@ -437,6 +438,11 @@ typedef enum {
 - (void)loadObjectsAtResourcePath:(NSString*)resourcePath objectMapping:(RKObjectMapping*)objectMapping delegate:(id<RKObjectLoaderDelegate>)delegate DEPRECATED_ATTRIBUTE;
 - (RKObjectLoader *)objectLoaderWithResourcePath:(NSString*)resourcePath delegate:(id<RKObjectLoaderDelegate>)delegate DEPRECATED_ATTRIBUTE;
 - (RKObjectLoader *)objectLoaderForObject:(id<NSObject>)object method:(RKRequestMethod)method delegate:(id<RKObjectLoaderDelegate>)delegate DEPRECATED_ATTRIBUTE;
+
+/**
+ TEL - Deprecated Completion Blocks
+ */
+- (void)loadObjectsAtResourcePath:(NSString*)resourcePath objectMapping:(RKObjectMapping *)objectMapping completionBlock:(RKObjectCompletionBlock)completionBlock failureBlock:(RKObjectFailureBlock)failureBlock DEPRECATED_ATTRIBUTE;
 
 /*
  NOTE:

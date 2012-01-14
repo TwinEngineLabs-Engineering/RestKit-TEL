@@ -201,6 +201,24 @@ static dispatch_queue_t defaultMappingQueue = nil;
     paginator.configurationDelegate = self;
     return paginator;
 }
+/**
+ TEL - Completion Block - needed for: loadObjectsAtResourcePath:resourcePath delegate:delegate
+ */
+#pragma mark - RKObjectLoaderDelegate methods
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didLoadObjects:(NSArray *)objects {
+  objectLoader.objectCompletionBlock(objectLoader, objects);
+}
+
+- (void)objectLoader:(RKObjectLoader *)objectLoader didFailWithError:(NSError *)error {
+  objectLoader.objectFailureBlock(objectLoader, error);
+}
+
+- (void)objectLoaderDidLoadUnexpectedResponse:(RKObjectLoader *)objectLoader {
+  objectLoader.objectFailureBlock(objectLoader, nil);
+}
+
+#pragma mark - Object Instance Loaders
 
 - (id)loaderForObject:(id<NSObject>)object method:(RKRequestMethod)method {
     NSString* resourcePath = (method == RKRequestMethodInvalid) ? nil : [self.router resourcePathForObject:object method:method];
@@ -225,6 +243,21 @@ static dispatch_queue_t defaultMappingQueue = nil;
     loader.delegate = delegate;
 	loader.method = RKRequestMethodGET;
 
+	[loader send];
+}
+
+/**
+ TEL - Completion Block
+ */
+- (void)loadObjectsAtResourcePath:(NSString *)resourcePath completionBlock:(RKObjectCompletionBlock)completionBlock failureBlock:(RKObjectFailureBlock)failureBlock {
+	RKObjectLoader* loader = [self loaderWithResourcePath:resourcePath];
+  loader.delegate = self;
+	loader.method = RKRequestMethodGET;
+  
+  loader.objectMapping = objectMapping;
+  loader.objectCompletionBlock = completionBlock;
+  loader.objectFailureBlock = failureBlock;
+  
 	[loader send];
 }
 
@@ -394,6 +427,27 @@ static dispatch_queue_t defaultMappingQueue = nil;
 	loader.method = RKRequestMethodGET;
     loader.objectMapping = objectMapping;
     
+	[loader send];
+}
+
+- (void)loadObjectsAtResourcePath:(NSString*)resourcePath objectMapping:(RKObjectMapping*)objectMapping delegate:(id<RKObjectLoaderDelegate>)delegate {
+	RKObjectLoader* loader = [self objectLoaderWithResourcePath:resourcePath delegate:delegate];
+	loader.method = RKRequestMethodGET;
+  loader.objectMapping = objectMapping;
+  
+	[loader send];
+}
+
+/**
+ TEL - Completion Block - Deprecated
+ */
+- (void)loadObjectsAtResourcePath:(NSString *)resourcePath objectMapping:(RKObjectMapping *)objectMapping completionBlock:(RKObjectCompletionBlock)completionBlock failureBlock:(RKObjectFailureBlock)failureBlock {
+	RKObjectLoader* loader = [self objectLoaderWithResourcePath:resourcePath delegate:self];
+	loader.method = RKRequestMethodGET;
+  loader.objectMapping = objectMapping;
+  loader.objectCompletionBlock = completionBlock;
+  loader.objectFailureBlock = failureBlock;
+  
 	[loader send];
 }
 

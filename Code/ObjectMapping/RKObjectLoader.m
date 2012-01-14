@@ -51,9 +51,14 @@
 @synthesize onDidLoadObjects;
 @synthesize onDidLoadObjectsDictionary;
 
+/**
+ TEL - Completion Block
+ */
+@synthesize objectCompletionBlock = _objectCompletionBlock;
+@synthesize objectFailureBlock = _objectFailureBlock;
+
 + (id)loaderWithURL:(RKURL *)URL mappingProvider:(RKObjectMappingProvider *)mappingProvider {
     return [[[self alloc] initWithURL:URL mappingProvider:mappingProvider] autorelease];
-}
 
 - (id)initWithURL:(RKURL *)URL mappingProvider:(RKObjectMappingProvider *)mappingProvider {
     self = [super initWithURL:URL];
@@ -237,6 +242,7 @@
 - (RKObjectMappingResult*)performMapping:(NSError**)error {
     NSAssert(_sentSynchronously || ![NSThread isMainThread], @"Mapping should occur on a background thread");
     
+    // TODO: Assert that we are on the background thread
     RKObjectMappingProvider* mappingProvider;
     RKObjectMappingDefinition *configuredObjectMapping = [self configuredObjectMapping];
     if (configuredObjectMapping) {
@@ -246,6 +252,13 @@
         
         // Copy the error mapping from our configured mappingProvider
         mappingProvider.errorMapping = self.mappingProvider.errorMapping;
+//======= // TELOLD
+//    if (self.objectMapping) {
+//        NSString* rootKeyPath = self.objectMapping.rootKeyPath ? self.objectMapping.rootKeyPath : @"";
+//        RKLogDebug(@"Found directly configured object mapping, creating temporary mapping provider %@", (rootKeyPath ? @"for keyPath '%@'" : nil));
+//        mappingProvider = [[RKObjectMappingProvider new] autorelease];        
+//        [mappingProvider setMapping:self.objectMapping forKeyPath:rootKeyPath];
+//>>>>>>> Added completion blocks and failure blocks to RKRequests and RKObjectLoaders
     } else {
         RKLogDebug(@"No object mapping provider, using mapping provider from parent object manager to perform KVC mapping");
         mappingProvider = self.mappingProvider;

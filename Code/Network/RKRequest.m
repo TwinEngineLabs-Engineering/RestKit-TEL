@@ -118,6 +118,12 @@ RKRequestMethod RKRequestMethodTypeFromName(NSString *methodName) {
 @synthesize disableCertificateValidation = _disableCertificateValidation;
 @synthesize cancelled = _cancelled;
 
+/**
+ TEL - Completion Block
+ */
+@synthesize completionBlock = _completionBlock;
+@synthesize failureBlock = _failureBlock;
+
 #if TARGET_OS_IPHONE
 @synthesize backgroundPolicy = _backgroundPolicy, backgroundTaskIdentifier = _backgroundTaskIdentifier;
 #endif
@@ -672,7 +678,7 @@ RKRequestMethod RKRequestMethodTypeFromName(NSString *methodName) {
   	_isLoaded = YES;
 
     RKLogInfo(@"Status Code: %ld", (long) [response statusCode]);
-    RKLogDebug(@"Body: %@", [response bodyAsString]);
+    RKLogInfo(@"Body: %@", [response bodyAsString]);
 
 	RKResponse* finalResponse = response;
 
