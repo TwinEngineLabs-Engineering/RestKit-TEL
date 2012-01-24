@@ -655,6 +655,10 @@ RKRequestMethod RKRequestMethodTypeFromName(NSString *methodName) {
 		if ([_delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
 			[_delegate request:self didFailLoadWithError:error];
 		}
+    
+    if (self.failureBlock != nil && self.delegate == nil) {
+      self.failureBlock(self, error);
+    }
         
         if (self.onDidFailLoadWithError) {
             self.onDidFailLoadWithError(error);
@@ -715,6 +719,12 @@ RKRequestMethod RKRequestMethodTypeFromName(NSString *methodName) {
                                                         object:self
                                                       userInfo:userInfo];
 
+  /**
+   TEL - Completion Block
+   */
+  if (self.completionBlock != nil && self.delegate == nil) {
+    self.completionBlock(self, finalResponse);
+  }
     // NOTE: This notification must be posted last as the request queue releases the request when it
     // receives the notification
     [[NSNotificationCenter defaultCenter] postNotificationName:RKRequestDidFinishLoadingNotification object:self];
