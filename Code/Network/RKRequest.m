@@ -211,7 +211,6 @@ RKRequestMethod RKRequestMethodTypeFromName(NSString *methodName) {
   	[_URLRequest release];
   	_URLRequest = nil;
   	[_params release];
-	_params = nil;
   	[_additionalHTTPHeaders release];
   	_additionalHTTPHeaders = nil;
   	[_username release];
@@ -663,7 +662,6 @@ RKRequestMethod RKRequestMethodTypeFromName(NSString *methodName) {
         if (self.onDidFailLoadWithError) {
             self.onDidFailLoadWithError(error);
         }
-
         
         NSDictionary* userInfo = [NSDictionary dictionaryWithObject:error forKey:RKRequestDidFailWithErrorNotificationUserInfoErrorKey];
 		[[NSNotificationCenter defaultCenter] postNotificationName:RKRequestDidFailWithErrorNotification
@@ -728,6 +726,10 @@ RKRequestMethod RKRequestMethodTypeFromName(NSString *methodName) {
     // NOTE: This notification must be posted last as the request queue releases the request when it
     // receives the notification
     [[NSNotificationCenter defaultCenter] postNotificationName:RKRequestDidFinishLoadingNotification object:self];
+  
+  if (self.completionBlock != nil && self.delegate == nil) {
+    self.completionBlock(self, finalResponse);
+  }
 }
 
 - (BOOL)isGET {
