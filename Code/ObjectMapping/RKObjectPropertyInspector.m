@@ -87,7 +87,7 @@ static RKObjectPropertyInspector* sharedInspector = nil;
 			// property_getAttributes() returns everything we need to implement this...
 			// See: http://developer.apple.com/mac/library/DOCUMENTATION/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5
 			objc_property_t* prop = propList + i;
-			NSString* attributeString = [NSString stringWithCString:property_getAttributes(*prop) encoding:NSUTF8StringEncoding];			
+			NSString* attributeString = [NSString stringWithCString:property_getAttributes(*prop) encoding:NSUTF8StringEncoding];
 			propName = [NSString stringWithCString:property_getName(*prop) encoding:NSUTF8StringEncoding];
 			
 			if (![propName isEqualToString:@"_mapkit_hasPanoramaID"]) {

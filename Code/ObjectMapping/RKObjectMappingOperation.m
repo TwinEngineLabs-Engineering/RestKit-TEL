@@ -323,6 +323,7 @@ BOOL RKObjectIsValueEqualToValue(id sourceValue, id destinationValue) {
 
     // Inspect the property type to handle any value transformations
     Class type = [self.objectMapping classForProperty:attributeMapping.destinationKeyPath];
+    RKLogTrace(@"Desination keyPath type: %@", NSStringFromClass(type));
     if (type && NO == [[value class] isSubclassOfClass:type]) {
         value = [self transformValue:value atKeyPath:attributeMapping.sourceKeyPath toType:type];
     }

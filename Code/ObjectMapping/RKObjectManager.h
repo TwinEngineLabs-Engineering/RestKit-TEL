@@ -413,6 +413,14 @@ typedef enum {
 - (void)postObject:(id<NSObject>)object usingBlock:(RKObjectLoaderBlock)block;
 
 /**
+ POST a remote object instance and yield to a completion or failure block
+ 
+ @see sendObject:method:delegate:block
+ - (RKObjectLoader*)postObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
+ */
+- (RKObjectLoader*)postObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
+
+/**
  PUT a remote object instance and yield the object loader to the block before sending
  
  @see sendObject:method:delegate:block
@@ -420,11 +428,27 @@ typedef enum {
 - (void)putObject:(id<NSObject>)object usingBlock:(RKObjectLoaderBlock)block;
 
 /**
+ PUT a remote object instance and yield to a completion or failure block
+ 
+ @see sendObject:method:delegate:block
+ - (RKObjectLoader*)putObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
+ */
+- (RKObjectLoader*)putObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
+
+/**
  DELETE a remote object instance and yield the object loader to the block before sending
  
  @see sendObject:method:delegate:block
  */
 - (void)deleteObject:(id<NSObject>)object usingBlock:(RKObjectLoaderBlock)block;
+
+/**
+ DELETE a remote object instance and yield to a completion or failure block
+ 
+ @see sendObject:method:delegate:block
+ - (RKObjectLoader*)deleteObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
+ */
+- (RKObjectLoader*)deleteObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
 
 #endif
 
