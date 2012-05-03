@@ -59,6 +59,7 @@
 
 + (id)loaderWithURL:(RKURL *)URL mappingProvider:(RKObjectMappingProvider *)mappingProvider {
     return [[[self alloc] initWithURL:URL mappingProvider:mappingProvider] autorelease];
+}
 
 - (id)initWithURL:(RKURL *)URL mappingProvider:(RKObjectMappingProvider *)mappingProvider {
     self = [super initWithURL:URL];

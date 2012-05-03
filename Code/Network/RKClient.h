@@ -94,7 +94,7 @@
  @see RKRequestQueue
  @see RKRequestSerializable
  */
-@interface RKClient : NSObject <RKConfigurationDelegate> {
+@interface RKClient : NSObject <RKConfigurationDelegate, RKRequestDelegate> {
 	RKURL *_baseURL;
 
     RKRequestAuthenticationType _authenticationType;

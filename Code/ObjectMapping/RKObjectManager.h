@@ -115,7 +115,7 @@ typedef enum {
  When an instance of RKObjectManager is configured, the RKObjectMappingProvider
  instance configured 
  */
-@interface RKObjectManager : NSObject <RKConfigurationDelegate>
+@interface RKObjectManager : NSObject <RKConfigurationDelegate, RKObjectLoaderDelegate>
 
 /// @name Configuring the Shared Manager Instance
 
@@ -418,7 +418,7 @@ typedef enum {
  @see sendObject:method:delegate:block
  - (RKObjectLoader*)postObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
  */
-- (RKObjectLoader*)postObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
+- (void)postObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
 
 /**
  PUT a remote object instance and yield the object loader to the block before sending
@@ -433,7 +433,7 @@ typedef enum {
  @see sendObject:method:delegate:block
  - (RKObjectLoader*)putObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
  */
-- (RKObjectLoader*)putObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
+- (void)putObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
 
 /**
  DELETE a remote object instance and yield the object loader to the block before sending
@@ -448,7 +448,7 @@ typedef enum {
  @see sendObject:method:delegate:block
  - (RKObjectLoader*)deleteObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
  */
-- (RKObjectLoader*)deleteObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
+- (void)deleteObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure;
 
 #endif
 

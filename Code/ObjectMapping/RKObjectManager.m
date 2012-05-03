@@ -254,7 +254,6 @@ static dispatch_queue_t defaultMappingQueue = nil;
   loader.delegate = self;
 	loader.method = RKRequestMethodGET;
 
-  loader.objectMapping = objectMapping;
   loader.objectCompletionBlock = completionBlock;
   loader.objectFailureBlock = failureBlock;
 
@@ -397,6 +396,32 @@ static dispatch_queue_t defaultMappingQueue = nil;
     objectLoader.serializationMIMEType = self.serializationMIMEType;
     [self configureRequest:objectLoader];
 }
+/**
+ TEL - Completion Block
+ */
+- (void)postObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure {
+	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodPOST delegate:self];
+  loader.targetObject = object;
+  loader.objectCompletionBlock = completion;
+  loader.objectFailureBlock = failure;
+  [loader send];
+}
+
+- (void)putObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure {
+	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodPUT delegate:self];
+  loader.targetObject = object;
+  loader.objectCompletionBlock = completion;
+  loader.objectFailureBlock = failure;
+  [loader send];
+}
+
+- (void)deleteObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure {
+	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodDELETE delegate:self];
+  loader.targetObject = object;
+  loader.objectCompletionBlock = completion;
+  loader.objectFailureBlock = failure;
+  [loader send];
+}
 
 #pragma mark - Deprecations
 
@@ -426,14 +451,6 @@ static dispatch_queue_t defaultMappingQueue = nil;
     loader.delegate = delegate;
 	loader.method = RKRequestMethodGET;
     loader.objectMapping = objectMapping;
-
-	[loader send];
-}
-
-- (void)loadObjectsAtResourcePath:(NSString*)resourcePath objectMapping:(RKObjectMapping*)objectMapping delegate:(id<RKObjectLoaderDelegate>)delegate {
-	RKObjectLoader* loader = [self objectLoaderWithResourcePath:resourcePath delegate:delegate];
-	loader.method = RKRequestMethodGET;
-  loader.objectMapping = objectMapping;
 
 	[loader send];
 }
