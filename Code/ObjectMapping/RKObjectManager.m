@@ -400,7 +400,10 @@ static dispatch_queue_t defaultMappingQueue = nil;
  TEL - Completion Block
  */
 - (void)postObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure {
-	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodPOST delegate:self];
+//	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodPOST delegate:self];
+  RKObjectLoader *loader = [self loaderForObject:object method:RKRequestMethodPOST];
+  loader.delegate = self;
+  
   loader.targetObject = object;
   loader.objectCompletionBlock = completion;
   loader.objectFailureBlock = failure;
@@ -408,7 +411,10 @@ static dispatch_queue_t defaultMappingQueue = nil;
 }
 
 - (void)putObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure {
-	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodPUT delegate:self];
+//	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodPUT delegate:self];
+  RKObjectLoader *loader = [self loaderForObject:object method:RKRequestMethodPUT];
+  loader.delegate = self;
+  
   loader.targetObject = object;
   loader.objectCompletionBlock = completion;
   loader.objectFailureBlock = failure;
@@ -416,7 +422,10 @@ static dispatch_queue_t defaultMappingQueue = nil;
 }
 
 - (void)deleteObject:(id<NSObject>)object completionBlock:(RKObjectCompletionBlock)completion failureBlock:(RKObjectFailureBlock)failure {
-	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodDELETE delegate:self];
+//	RKObjectLoader* loader = [self objectLoaderForObject:object method:RKRequestMethodDELETE delegate:self];
+  RKObjectLoader *loader = [self loaderForObject:object method:RKRequestMethodDELETE];
+  loader.delegate = self;
+  
   loader.targetObject = object;
   loader.objectCompletionBlock = completion;
   loader.objectFailureBlock = failure;
